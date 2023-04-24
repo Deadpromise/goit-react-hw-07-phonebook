@@ -21,9 +21,13 @@ function App() {
       <ContactForm />
       <h2 style={{ fontSize: '30px' }}>Contacts</h2>
       <Filter></Filter>
-      {isLoading && !error && <p>Loading contacts...</p>}
+      {isLoading && !error && (
+        <p style={{ fontSize: '30px' }}>Loading contacts...</p>
+      )}
       {!isLoading && error && (
-        <p>We are sorry, something go wrong. Error message: "{error}"</p>
+        <p style={{ fontSize: '30px' }}>
+          We are sorry, something go wrong. Error message: "{error}"
+        </p>
       )}
       {!isLoading && !error && <ContactList />}
     </AppContainer>

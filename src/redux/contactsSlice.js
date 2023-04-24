@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts, addContact } from './operations';
+import { fetchContacts, addContact, deleteContact } from './operations';
 
 const handlePending = state => {
   state.isLoading = true;
@@ -32,6 +32,16 @@ const contactsSlice = createSlice({
       state.items.push(action.payload);
     },
     [addContact.rejected]: handleRejected,
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.items.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.items.splice(index, 1);
+    },
+    [deleteContact.rejected]: handleRejected,
   },
 });
 
@@ -39,18 +49,18 @@ export const contactsReducer = contactsSlice.reducer;
 
 // addContact: {
 //   reducer(state, action) {
-//     const stateContacts = state.contacts.items;
-//     const chekClone = stateContacts.find(
-//       item =>
-//         item.name === action.payload.name ||
-//         item.number === action.payload.number
-//     );
-//     if (chekClone) {
-//       alert(
-//         `User with name ${action.payload.name} or number ${action.payload.number} is already in contacts`
-//       );
-//       return state;
-//     }
+// const stateContacts = state.contacts.items;
+// const chekClone = stateContacts.find(
+//   item =>
+//     item.name === action.payload.name ||
+//     item.number === action.payload.number
+// );
+// if (chekClone) {
+//   alert(
+//     `User with name ${action.payload.name} or number ${action.payload.number} is already in contacts`
+//   );
+//   return state;
+// }
 //     stateContacts.push(action.payload);
 //   },
 //   prepare(name, number) {
